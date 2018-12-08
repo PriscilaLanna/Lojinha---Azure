@@ -33,7 +33,8 @@ namespace LojinhaPri.FIAP
                 .AddAzureAD(options => Configuration.Bind("AzureAd", options));
 
             services.AddSingleton<IRedisCache, RedisCache>();
-            services.AddScoped<IProdutoServices, ProdutoServices>();        
+            services.AddScoped<IProdutoServices, ProdutoServices>();
+            services.AddScoped<ICarrinhoServices, CarrinhoServices>();
             services.AddScoped<IAzureStorage, AzureStorage>();
 
             Mapper.Initialize(options => options.AddProfile<ProdutoProfile>());

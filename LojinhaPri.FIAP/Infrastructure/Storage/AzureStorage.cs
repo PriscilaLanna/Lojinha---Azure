@@ -48,7 +48,7 @@ namespace LojinhaPri.FIAP.Infrastructure.Storage
             var segment = await table.ExecuteQuerySegmentedAsync(query, token);
             var produtoEntity = segment.ToList();
 
-            return produtoEntity.Select(x =>
+            return produtoEntity.Where(x => x.Produto != null).Select(x =>
               JsonConvert.DeserializeObject<Produto>(x.Produto == null ? "" : x.Produto)
           ).ToList();
         }
