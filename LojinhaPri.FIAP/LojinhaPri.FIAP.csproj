@@ -24,7 +24,6 @@
     <Folder Include="Core\Services\" />
     <Folder Include="Core\ViewModels\" />
     <Folder Include="Infrastructure\Mappings\" />
-    <Folder Include="Infrastructure\Storage\" />
     <Folder Include="Infrastructure\Repository\" />
     <Folder Include="Infrastructure\Redis\" />
   </ItemGroup>
