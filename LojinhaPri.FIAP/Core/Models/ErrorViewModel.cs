@@ -1,5 +1,3 @@
-using System;
-
 namespace LojinhaPri.FIAP.Models
 {
     public class ErrorViewModel

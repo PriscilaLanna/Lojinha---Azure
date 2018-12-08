@@ -1,9 +1,7 @@
 ﻿using LojinhaPri.FIAP.Core.Models;
+using LojinhaPri.FIAP.Infrastructure.Storage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LojinhaPri.FIAP.Controllers
@@ -11,6 +9,13 @@ namespace LojinhaPri.FIAP.Controllers
     [Authorize]
     public class ProdutosController : Controller
     {
+        private readonly IAzureStorage _azureStorage;
+
+        public ProdutosController(IAzureStorage azureStorage)
+        {
+            _azureStorage = azureStorage;
+        }
+
         public IActionResult Create()
         {
             var produto = new Produto
@@ -25,7 +30,14 @@ namespace LojinhaPri.FIAP.Controllers
                 ImagemPrincipalUrl = "https://60175z.ha.azioncdn.net/media/catalog/product/cache/0a2bc38b67edd8e5c70546a21088f7a5/1/0/103724603_4.jpg"
             };
 
+            _azureStorage.AddProduto(produto);
+
             return Content("Ok");
+        }
+        
+        public async Task<IActionResult> List()
+        {
+            return Json(await _azureStorage.GetProdutos());
         }
     }
 }
