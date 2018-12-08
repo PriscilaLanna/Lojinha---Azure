@@ -52,5 +52,24 @@ namespace LojinhaPri.FIAP.Infrastructure.Storage
               JsonConvert.DeserializeObject<Produto>(x.Produto == null ? "" : x.Produto)
           ).ToList();
         }
+
+        public async Task<Produto> GetProduto(int id)
+        {
+            var table = _tableClient.GetTableReference("produtos");
+            table.CreateIfNotExistsAsync().Wait();
+
+            var query = new TableQuery<ProdutoEntity>()
+                .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "13net"))
+                  .Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id.ToString()));
+
+            TableContinuationToken token = null;
+
+            var segment = await table.ExecuteQuerySegmentedAsync(query, token);
+            var produtoEntity = segment.ToList();
+
+            return produtoEntity.Select(x =>
+              JsonConvert.DeserializeObject<Produto>(x.Produto == null ? "" : x.Produto)
+          ).FirstOrDefault();
+        }
     }
 }

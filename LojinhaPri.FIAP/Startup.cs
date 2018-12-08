@@ -1,4 +1,8 @@
-﻿using LojinhaPri.FIAP.Infrastructure.Storage;
+﻿using AutoMapper;
+using LojinhaPri.FIAP.Core.Services;
+using LojinhaPri.FIAP.Infrastructure.Mappings;
+using LojinhaPri.FIAP.Infrastructure.Redis;
+using LojinhaPri.FIAP.Infrastructure.Storage;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Builder;
@@ -28,8 +32,13 @@ namespace LojinhaPri.FIAP
             services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
                 .AddAzureAD(options => Configuration.Bind("AzureAd", options));
 
+            services.AddSingleton<IRedisCache, RedisCache>();
+            services.AddScoped<IProdutoServices, ProdutoServices>();        
             services.AddScoped<IAzureStorage, AzureStorage>();
 
+            Mapper.Initialize(options => options.AddProfile<ProdutoProfile>());
+
+            services.AddAutoMapper();
             services.AddMvc();
         }
 

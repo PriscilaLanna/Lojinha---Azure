@@ -8,5 +8,6 @@ namespace LojinhaPri.FIAP.Infrastructure.Storage
     {
         void AddProduto(Produto produto);
         Task<List<Produto>> GetProdutos();
+        Task<Produto> GetProduto(int id);
     }
 }
